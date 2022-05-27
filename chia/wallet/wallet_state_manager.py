@@ -37,7 +37,7 @@ from chia.wallet.cat_wallet.cat_constants import DEFAULT_CATS
 from chia.wallet.derivation_record import DerivationRecord
 from chia.wallet.derive_keys import master_sk_to_wallet_sk, master_sk_to_wallet_sk_unhardened
 from chia.wallet.key_val_store import KeyValStore
-from chia.wallet.puzzles.cat_loader import CAT_MOD, CAT_MOD_HASH
+from chia.wallet.puzzles.cat_loader import CAT_MOD
 from chia.wallet.rl_wallet.rl_wallet import RLWallet
 from chia.wallet.settings.user_settings import UserSettings
 from chia.wallet.trade_manager import TradeManager
@@ -563,7 +563,7 @@ class WalletStateManager:
             else:
                 our_inner_puzzle: Program = self.main_wallet.puzzle_for_pk(bytes(derivation_record.pubkey))
                 asset_id: bytes32 = bytes32(bytes(tail_hash)[1:])
-                cat_puzzle = construct_cat_puzzle(CAT_MOD, asset_id, our_inner_puzzle, mod_code_hash=CAT_MOD_HASH)
+                cat_puzzle = construct_cat_puzzle(CAT_MOD, asset_id, our_inner_puzzle)
                 if cat_puzzle.get_tree_hash() != coin_state.coin.puzzle_hash:
                     return None, None
                 if bytes(tail_hash).hex()[2:] in self.default_cats or self.config.get(
